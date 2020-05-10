@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:lang_guide/services/CustomSelectLevelButton.dart';
+import 'package:lang_guide/services/database.dart';
+
 
 class SelectLevel extends StatefulWidget {
   @override
@@ -11,15 +13,51 @@ class SelectLevel extends StatefulWidget {
 class _SelectLevelState extends State<SelectLevel> {
 
   String levelType;
+  String levelDifficult;
   String titleText;
+  int    taskIndex = 0;
   Color iconsColor = Colors.white;
   Map data;
+  List<Map<dynamic,dynamic>> listOfTasks;
+
+
+  void initEasy(int levelIndex) async{
+    switch(levelType){
+      case 'text':
+        listOfTasks = await Database.getEasyTextTasks(levelIndex);
+        break;
+      case 'picture':
+        break;
+      case 'media':
+        break;
+    }
+  }
+  void initMedium(){
+    switch(levelType){
+      case 'text':
+        break;
+      case 'picture':
+        break;
+      case 'media':
+        break;
+    }
+  }
+  void initHard(){
+    switch(levelType){
+      case 'text':
+        break;
+      case 'picture':
+        break;
+      case 'media':
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     data= ModalRoute.of(context).settings.arguments;
     levelType = data['levelType'];
-
+    levelDifficult = data['levelDifficult'];
     initParams();
 
     return Scaffold(
@@ -33,12 +71,28 @@ class _SelectLevelState extends State<SelectLevel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric1,onTap:(){}),
+                CustomSelecetLevelButton(iconData: MdiIcons.numeric1,onTap:() async{
+                  await initEasy(1);
+                  Navigator.pushNamed(context, '/${levelType}Level',arguments: {
+                    '0' : listOfTasks[0],
+                    '1' : listOfTasks[1],
+                    '2' : listOfTasks[2],
+                    '3' : listOfTasks[3]
+                  });
+                }),
                 Flexible(
                   child: FractionallySizedBox(widthFactor: 0.4,),
                 ),
 
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric2,onTap:(){}),
+                CustomSelecetLevelButton(iconData: MdiIcons.numeric2,onTap:()async{
+                  await initEasy(2);
+                  Navigator.pushNamed(context, '/${levelType}Level',arguments: {
+                    '0' : listOfTasks[0],
+                    '1' : listOfTasks[1],
+                    '2' : listOfTasks[2],
+                    '3' : listOfTasks[3]
+                  });
+                }),
               ],
             ),
             Row(
@@ -97,4 +151,5 @@ class _SelectLevelState extends State<SelectLevel> {
         break;
     }
   }
+
 }

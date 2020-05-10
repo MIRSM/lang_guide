@@ -15,6 +15,7 @@ class Database {
   static const _UPD_LAST_DIFF_ACTION = 'UPD_LAST_DIFF';
   static const _ADD_COMP_LVL_ACTION = 'ADD_COMP_LVL';
   static const _UPD_COMP_LVL_ACTION = 'UPD_COMP_LVL';
+  static const _GET_EASY_TXT_TASK   = 'GET_EASY_TXT_TASK';
 
   static Future<String> checkOrAddUser(String user_id, String first_name, String last_name) async {
     try{
@@ -122,16 +123,27 @@ class Database {
       return [];
     }
   }
-  /*
 
-  List<Map<String, dynamic>> get_completed_levels(String user_id, String level_difficult, String level_type){
-    String cmd = "select level_number, points from $level_difficult where VK_ID = ? and level_type = ?";
-    SqlResult result_cmd = connection.execute(cmd,[user_id, level_type]);
-    List<Map<String, dynamic>> result = [];
-    result_cmd.rows.forEach((r){
-      result.add(r.toJson());
-    });
+  static Future<List<Map<String, dynamic>>> getEasyTextTasks(int level) async{
+    try{
+      var map = Map<String,dynamic>();
+      map['action'] = _GET_EASY_TXT_TASK;
+      map['level'] = level.toString();
 
-  }*/
+      final response = await http.post(ROOT, body: map);
+      //print('getEasyTextTasks ${level} Response: ${response.body}');
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      List<Map<String, dynamic>> resultList = parsed.toList();
+
+      if (200 == response.statusCode) {
+        return resultList;
+      } else {
+        return [];
+      }
+    }catch(e){
+      print(e);
+      return [];
+    }
+  }
 }
 

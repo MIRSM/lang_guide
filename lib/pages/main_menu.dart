@@ -50,6 +50,7 @@ class _MainMenuState extends State<MainMenu> with WidgetsBindingObserver {
                 onTap: () async{
                   await Navigator.pushNamed(context, '/selectLevel',arguments: {
                     'levelType' : 'text',
+                    'levelDifficult' :currentDifficult,
                   });
                 },
               ),

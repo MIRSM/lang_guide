@@ -74,21 +74,7 @@ class _SelectDifficultState extends State<SelectDifficult> {
                 ),
               ],
             ),
-      ),
-
-          /*ListView.builder(
-            itemCount: _listOfDifficults.length,
-              itemBuilder: (context,index){
-              return Card(
-                color: Colors.lightBlue,
-                child: ListTile(
-                  onTap: (){},
-                  title: Text(_listOfDifficults[index],
-                  style: _listOfDifficults[index]== currentDifficult? TextStyle(color: Colors.orange[400]):TextStyle(color: Colors.white),),
-                ),
-              );
-              }
-          ),*/
+          ),
         ],
       ),
     );
