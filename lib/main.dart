@@ -5,6 +5,7 @@ import 'package:lang_guide/pages/main_menu.dart';
 import 'package:lang_guide/pages/select_difficult.dart';
 import 'package:lang_guide/pages/select_level.dart';
 import 'package:lang_guide/pages/textLevel.dart';
+import 'package:lang_guide/pages/resultLevel.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -16,6 +17,7 @@ void main() {
         '/selectDifficult': (context) => SelectDifficult(),
         '/selectLevel' : (context) =>  SelectLevel(),
         '/textLevel'  : (context) => textLevel(),
+      '/resultLevel' : (context) => ResultLevel(),
         //'/options': (context) => Options(),
         //'/TrainingType': (context) => TrainingType(),
         //'/TrainingLevel' : (context) => TrainingLevel(),
