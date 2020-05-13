@@ -13,9 +13,19 @@ class Database {
   static const _GET_COMP_LVLS_ACTION = 'GET_COMP_LVLS';
   static const _CHECK_OR_ADD_USR_ACTION = 'CHECK_ADD_USR';
   static const _UPD_LAST_DIFF_ACTION = 'UPD_LAST_DIFF';
-  static const _ADD_COMP_LVL_ACTION = 'ADD_COMP_LVL';
-  static const _UPD_COMP_LVL_ACTION = 'UPD_COMP_LVL';
+  static const _UPD_COMP_LVL_ACTION = 'ADD_UPD_COMP_LVL';
   static const _GET_EASY_TXT_TASK   = 'GET_EASY_TXT_TASK';
+
+ static String translateLevelDifficult(String level_difficult){
+    switch(level_difficult){
+      case 'Начинающий':
+        return tb_easy_level;
+      case 'Средний':
+        return tb_medium_level;
+      case 'Продвинутый':
+        return Database.tb_hard_level;
+    }
+  }
 
   static Future<String> checkOrAddUser(String user_id, String first_name, String last_name) async {
     try{
@@ -57,7 +67,7 @@ class Database {
     }
   }
 
-  static Future<String> addCompletedLevel(String user_id,String level_difficult, String level_type, int level_number, int points) async {
+  /*static Future<String> addCompletedLevel(String user_id,String level_difficult, String level_type, int level_number, int points) async {
     try{
       var map = Map<String,dynamic>();
       map['action'] = _ADD_COMP_LVL_ACTION;
@@ -77,14 +87,14 @@ class Database {
     }catch(e){
       return "exc error";
     }
-  }
+  }*/
 
-  static Future<String> updCompletedLevel(String user_id,String level_difficult, String level_type, int level_number, int points) async {
+  static Future<String> addUpdCompletedLevel(String user_id,String level_difficult, String level_type, String level_number, String points) async {
     try{
       var map = Map<String,dynamic>();
       map['action'] = _UPD_COMP_LVL_ACTION;
       map['user_id'] = user_id;
-      map['level_difficult'] = level_difficult;
+      map['level_difficult'] = translateLevelDifficult(level_difficult);
       map['level_type'] = level_type;
       map['level_number'] = level_number;
       map['points'] = points;
@@ -97,30 +107,34 @@ class Database {
         return "error";
       }
     }catch(e){
+      print (e);
       return "exc error";
     }
   }
 
   static Future<List<Map<String, dynamic>>> getCompletedLevels(String user_id, String level_difficult, String level_type) async{
+
+    List<Map<String, dynamic>>resultList=[];
     try{
       var map = Map<String,dynamic>();
       map['action'] = _GET_COMP_LVLS_ACTION;
       map['user_id'] = user_id;
-      map['level_difficult'] = level_difficult;
+      map['level_difficult'] = translateLevelDifficult(level_difficult);
       map['level_type'] = level_type;
 
       final response = await http.post(ROOT, body: map);
       print('getCompletedLevels Response: ${response.body}');
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      List<Map<String, dynamic>> resultList = parsed.toList();
+      resultList = parsed.toList();
 
       if (200 == response.statusCode) {
         return resultList;
       } else {
-        return [];
+        return resultList;
       }
     }catch(e){
-      return [];
+      print (e);
+      return resultList;
     }
   }
 

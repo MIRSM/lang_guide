@@ -12,19 +12,65 @@ class SelectLevel extends StatefulWidget {
 
 class _SelectLevelState extends State<SelectLevel> {
 
+  String user_id;
   String levelType;
   String levelDifficult;
   String titleText;
-  int    taskIndex = 0;
+  String levelIndex;
   Color iconsColor = Colors.white;
   Map data;
   List<Map<dynamic,dynamic>> listOfTasks;
+  List<Map<String,dynamic>> listOfDonuts;
+  Map<String,dynamic> mapOfDonuts;
+  Future<Map<String,dynamic>> futureMapOfDonuts;
 
+  static const List<IconData> iconDataList=[
+    MdiIcons.numeric1,
+    MdiIcons.numeric2,
+    MdiIcons.numeric3,
+    MdiIcons.numeric4,
+    MdiIcons.numeric5,
+    MdiIcons.numeric6,
+    MdiIcons.numeric7,
+    MdiIcons.numeric8
+  ];
 
-  void initEasy(int levelIndex) async{
+  Future<Map<String,dynamic>> getAllDonuts()async {
+    listOfDonuts=[];
+    if(mapOfDonuts==null)
+      mapOfDonuts = Map<String,dynamic>();
+    listOfDonuts = await Database.getCompletedLevels(user_id, levelDifficult, levelType);
+    for(int i=0;i<listOfDonuts.length;i++){
+      mapOfDonuts['${listOfDonuts[i]['level_number']}'] =listOfDonuts[i]['points'];
+    }
+    print(mapOfDonuts);
+    return mapOfDonuts;
+  }
+
+  int getDonutsOfLevel(int level){
+    if(mapOfDonuts['$level']!=null){
+      print('level: $level, donuts: ${int.parse(mapOfDonuts['$level'])}');
+      return int.parse(mapOfDonuts['$level']);
+    }
+    return 0;
+  }
+
+  void initDifficult(int index) async{
+    switch(levelDifficult){
+      case 'Начинающий':
+        return await initEasy(index);
+      case 'Средний':
+        return initMedium(index);
+      case 'Продвинутый':
+        return initHard(index);
+    }
+  }
+
+  void initEasy(int index) async{
+    levelIndex = index.toString();
     switch(levelType){
       case 'text':
-        listOfTasks = await Database.getEasyTextTasks(levelIndex);
+        listOfTasks = await Database.getEasyTextTasks(index);
         break;
       case 'picture':
         break;
@@ -32,7 +78,7 @@ class _SelectLevelState extends State<SelectLevel> {
         break;
     }
   }
-  void initMedium(){
+  void initMedium(int index){
     switch(levelType){
       case 'text':
         break;
@@ -42,7 +88,7 @@ class _SelectLevelState extends State<SelectLevel> {
         break;
     }
   }
-  void initHard(){
+  void initHard(int index){
     switch(levelType){
       case 'text':
         break;
@@ -51,6 +97,74 @@ class _SelectLevelState extends State<SelectLevel> {
       case 'media':
         break;
     }
+  }
+
+  List<Widget> initButtons(){
+    List<Widget> listOfButtons=[];
+    listOfButtons.add(SizedBox(height: 25,),);
+    bool odd = false;
+    for(int i=0;i<8;i++){
+      if(odd){
+        listOfButtons.add(Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomSelecetLevelButton(donutCount: getDonutsOfLevel(i+1),iconData: iconDataList[i],onTap:()async{
+              await initDifficult(i+1);
+              await Navigator.pushNamed(context, '/${levelType}Level',arguments: {
+                'user_id' : user_id,
+                'difficult' : levelDifficult,
+                'level_number' : levelIndex,
+                '0' : listOfTasks[0],
+                '1' : listOfTasks[1],
+                '2' : listOfTasks[2],
+                '3' : listOfTasks[3]
+              });
+            }),
+          ],),
+        );
+      }else{
+        listOfButtons.add(Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomSelecetLevelButton(donutCount: getDonutsOfLevel(i+1), iconData: iconDataList[i++],onTap:() async{
+              await initDifficult(i+1);
+              await Navigator.pushNamed(context, '/${levelType}Level',arguments: {
+                'user_id' : user_id,
+                'difficult' : levelDifficult,
+                'level_number' : levelIndex,
+                '0' : listOfTasks[0],
+                '1' : listOfTasks[1],
+                '2' : listOfTasks[2],
+                '3' : listOfTasks[3]
+              });
+            }),
+            Flexible(
+              child: FractionallySizedBox(widthFactor: 0.4,),
+            ),
+            CustomSelecetLevelButton(donutCount: getDonutsOfLevel(i+1), iconData: iconDataList[i],onTap:()async{
+              await initDifficult(i+1);
+              await Navigator.pushNamed(context, '/${levelType}Level',arguments: {
+                'user_id' : user_id,
+                'difficult' : levelDifficult,
+                'level_number' : levelIndex,
+                '0' : listOfTasks[0],
+                '1' : listOfTasks[1],
+                '2' : listOfTasks[2],
+                '3' : listOfTasks[3]
+              });
+            }),
+          ],
+        )
+        );
+      }
+      odd=!odd;
+    }
+    return listOfButtons;
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -58,81 +172,28 @@ class _SelectLevelState extends State<SelectLevel> {
     data= ModalRoute.of(context).settings.arguments;
     levelType = data['levelType'];
     levelDifficult = data['levelDifficult'];
+    user_id = data['user_id'];
     initParams();
+    futureMapOfDonuts = getAllDonuts();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(titleText),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            SizedBox(height: 50,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric1,onTap:() async{
-                  await initEasy(1);
-                  Navigator.pushNamed(context, '/${levelType}Level',arguments: {
-                    '0' : listOfTasks[0],
-                    '1' : listOfTasks[1],
-                    '2' : listOfTasks[2],
-                    '3' : listOfTasks[3]
-                  });
-                }),
-                Flexible(
-                  child: FractionallySizedBox(widthFactor: 0.4,),
-                ),
-
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric2,onTap:()async{
-                  await initEasy(2);
-                  Navigator.pushNamed(context, '/${levelType}Level',arguments: {
-                    '0' : listOfTasks[0],
-                    '1' : listOfTasks[1],
-                    '2' : listOfTasks[2],
-                    '3' : listOfTasks[3]
-                  });
-                }),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric3,onTap:(){}),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric4,onTap:(){}),
-                Flexible(
-                  child: FractionallySizedBox(widthFactor: 0.4,),
-                ),
-
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric5,onTap:(){}),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric6,onTap:(){}),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric7,onTap:(){}),
-                Flexible(
-                  child: FractionallySizedBox(widthFactor: 0.4,),
-                ),
-
-                CustomSelecetLevelButton(iconData: MdiIcons.numeric8,onTap:(){}),
-              ],
-            ),
-          ]),
-        );
+      body: FutureBuilder<Map<String,dynamic>>(
+        future: futureMapOfDonuts,
+        builder: (BuildContext context, AsyncSnapshot<Map<String,dynamic>> snapshot){
+          if(snapshot.hasData){
+            mapOfDonuts = snapshot.data;
+            return Column(
+              children: initButtons(),
+            );
+          }else{
+            return CircularProgressIndicator();
+          }
+        },
+      )
+    );
   }
 
   void initParams(){

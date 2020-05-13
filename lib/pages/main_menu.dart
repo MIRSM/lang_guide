@@ -51,6 +51,7 @@ class _MainMenuState extends State<MainMenu> with WidgetsBindingObserver {
                   await Navigator.pushNamed(context, '/selectLevel',arguments: {
                     'levelType' : 'text',
                     'levelDifficult' :currentDifficult,
+                    'user_id' : id
                   });
                 },
               ),

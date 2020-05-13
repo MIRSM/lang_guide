@@ -1,7 +1,5 @@
 import 'dart:ui';
-import 'package:lang_guide/pages/resultLevel.dart';
 import 'package:flutter/material.dart';
-import 'package:lang_guide/services/database.dart';
 
 class textLevel extends StatefulWidget {
   @override
@@ -23,6 +21,11 @@ class _textLevelState extends State<textLevel> {
   String rightAnswer='';
   List<String> answers;
 
+  String level_number;
+  String user_id;
+  static const String Level_Type = 'text';
+  String level_difficult;
+
   void checkAnswers(){
     setState(() {
       rightAnswer = mapOfTasks[taskIndex]['answer'].toString();
@@ -31,7 +34,6 @@ class _textLevelState extends State<textLevel> {
         finalAnswerColor = Colors.green;
         resultPoints++;
         //все правильно
-        //добавить очки
       }else{
         finalAnswerColor = Colors.red;
       }
@@ -158,7 +160,12 @@ class _textLevelState extends State<textLevel> {
                       shouldRefreshData = true;
                     }
                     if(taskIndex==3){
-                      Navigator.pushReplacementNamed(context, '/resultLevel', arguments: {'resultPoints' : resultPoints});
+                      Navigator.pushReplacementNamed(context, '/resultLevel', arguments: {
+                        'resultPoints' : resultPoints,
+                        'user_id' : user_id,
+                        'level_difficult' : level_difficult,
+                        'level_type' : Level_Type,
+                        'level_number' : level_number});
                       return;
                     }
                     taskIndex++;
@@ -180,6 +187,9 @@ class _textLevelState extends State<textLevel> {
   Widget build(BuildContext context) {
     if(mapOfTasks.isEmpty){
       final Map<String,dynamic> data = ModalRoute.of(context).settings.arguments;
+      user_id = data['user_id'];
+      level_difficult = data['difficult'];
+      level_number = data['level_number'];
       for(int i = 0;i<4;i++){
         mapOfTasks.add(data['$i']);
       }

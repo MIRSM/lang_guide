@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lang_guide/services/database.dart';
 
 class ResultLevel extends StatefulWidget {
 
@@ -7,6 +8,12 @@ class ResultLevel extends StatefulWidget {
 }
 
 class _ResultLevelState extends State<ResultLevel> with TickerProviderStateMixin{
+
+  String user_id;
+  String level_difficult;
+  String level_type;
+  String level_number;
+  bool blocked =false;
 
   int resultPoints = 0;
   int maxPoints = 4;
@@ -43,9 +50,24 @@ class _ResultLevelState extends State<ResultLevel> with TickerProviderStateMixin
     super.dispose();
   }
 
+  Future<void> sendData() async{
+    await Database.addUpdCompletedLevel(user_id, level_difficult, level_type, level_number, resultPoints.toString());
+  }
+
   Widget ShowResult(BuildContext context){
-    Map data = ModalRoute.of(context).settings.arguments;
-    resultPoints = data['resultPoints'];
+    if(!blocked) {
+      Map data = ModalRoute
+          .of(context)
+          .settings
+          .arguments;
+      resultPoints = data['resultPoints'];
+      user_id = data['user_id'];
+      level_difficult = data['level_difficult'];
+      level_type = data['level_type'];
+      level_number = data['level_number'];
+      sendData();
+      blocked = true;
+    }
     CountDonuts();
     controller.forward();
 
