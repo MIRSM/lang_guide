@@ -43,7 +43,7 @@ class _SelectLevelState extends State<SelectLevel> {
     for(int i=0;i<listOfDonuts.length;i++){
       mapOfDonuts['${listOfDonuts[i]['level_number']}'] =listOfDonuts[i]['points'];
     }
-    print(mapOfDonuts);
+    //print(mapOfDonuts);
     return mapOfDonuts;
   }
 
@@ -72,7 +72,8 @@ class _SelectLevelState extends State<SelectLevel> {
       case 'text':
         listOfTasks = await Database.getEasyTextTasks(index);
         break;
-      case 'picture':
+      case 'image':
+        listOfTasks = await Database.getEasyImageTasks(index);
         break;
       case 'media':
         break;
@@ -82,7 +83,7 @@ class _SelectLevelState extends State<SelectLevel> {
     switch(levelType){
       case 'text':
         break;
-      case 'picture':
+      case 'image':
         break;
       case 'media':
         break;
@@ -92,7 +93,7 @@ class _SelectLevelState extends State<SelectLevel> {
     switch(levelType){
       case 'text':
         break;
-      case 'picture':
+      case 'image':
         break;
       case 'media':
         break;
@@ -127,7 +128,7 @@ class _SelectLevelState extends State<SelectLevel> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CustomSelecetLevelButton(donutCount: getDonutsOfLevel(i+1), iconData: iconDataList[i++],onTap:() async{
-              await initDifficult(i+1);
+              await initDifficult(i);
               await Navigator.pushNamed(context, '/${levelType}Level',arguments: {
                 'user_id' : user_id,
                 'difficult' : levelDifficult,
@@ -173,8 +174,8 @@ class _SelectLevelState extends State<SelectLevel> {
     levelType = data['levelType'];
     levelDifficult = data['levelDifficult'];
     user_id = data['user_id'];
-    initParams();
     futureMapOfDonuts = getAllDonuts();
+    intTitle();
 
     return Scaffold(
       appBar: AppBar(
@@ -189,28 +190,23 @@ class _SelectLevelState extends State<SelectLevel> {
               children: initButtons(),
             );
           }else{
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       )
     );
   }
-
-  void initParams(){
+  intTitle(){
     switch(levelType){
       case 'text':
-        titleText = 'Задания с текстом';
+        titleText='Текстовые задания';
         break;
-      case 'picture':
-        titleText = 'Задания с картинками';
+      case 'image':
+        titleText='Задания с картинками';
         break;
       case 'media':
-        titleText = 'Задания с аудио/видео';
-        break;
-      default:
-        titleText = 'Ошибка';
+        titleText='Задания с медиа';
         break;
     }
   }
-
 }
