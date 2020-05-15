@@ -120,6 +120,9 @@ class _SelectLevelState extends State<SelectLevel> {
                 '2' : listOfTasks[2],
                 '3' : listOfTasks[3]
               });
+              setState(() {
+                levelType = data['levelType'];
+              });
             }),
           ],),
         );
@@ -129,7 +132,7 @@ class _SelectLevelState extends State<SelectLevel> {
           children: <Widget>[
             CustomSelecetLevelButton(donutCount: getDonutsOfLevel(i+1), iconData: iconDataList[i++],onTap:() async{
               await initDifficult(i);
-              await Navigator.pushNamed(context, '/${levelType}Level',arguments: {
+               await Navigator.pushNamed(context, '/${levelType}Level',arguments: {
                 'user_id' : user_id,
                 'difficult' : levelDifficult,
                 'level_number' : levelIndex,
@@ -138,6 +141,9 @@ class _SelectLevelState extends State<SelectLevel> {
                 '2' : listOfTasks[2],
                 '3' : listOfTasks[3]
               });
+               setState(() {
+                 levelType = data['levelType'];
+               });
             }),
             Flexible(
               child: FractionallySizedBox(widthFactor: 0.4,),
@@ -152,6 +158,9 @@ class _SelectLevelState extends State<SelectLevel> {
                 '1' : listOfTasks[1],
                 '2' : listOfTasks[2],
                 '3' : listOfTasks[3]
+              });
+              setState(() {
+                levelType = data['levelType'];
               });
             }),
           ],

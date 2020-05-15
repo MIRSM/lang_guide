@@ -175,7 +175,16 @@ class _imageLevelState extends State<imageLevel> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 FlatButton(
-                  onPressed: (){
+                  onPressed: ()async{
+                    if(taskIndex==3){
+                      await Navigator.pushNamed(context, '/resultLevel', arguments: {
+                        'resultPoints' : resultPoints,
+                        'user_id' : user_id,
+                        'level_difficult' : level_difficult,
+                        'level_type' : Level_Type,
+                        'level_number' : level_number});
+                      Navigator.pop(context);
+                    }
                     setState(() {
                       if(!isButtonPushed)  {
                         isButtonPushed = true;
@@ -184,15 +193,7 @@ class _imageLevelState extends State<imageLevel> {
                         isButtonPushed = false;
                         shouldRefreshData = true;
                       }
-                      if(taskIndex==3){
-                        Navigator.pushReplacementNamed(context, '/resultLevel', arguments: {
-                          'resultPoints' : resultPoints,
-                          'user_id' : user_id,
-                          'level_difficult' : level_difficult,
-                          'level_type' : Level_Type,
-                          'level_number' : level_number});
-                        return;
-                      }
+
                       taskIndex++;
                     });
                   },
