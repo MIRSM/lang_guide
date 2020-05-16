@@ -16,6 +16,7 @@ class Database {
   static const _UPD_COMP_LVL_ACTION = 'ADD_UPD_COMP_LVL';
   static const _GET_EASY_TXT_TASK   = 'GET_EASY_TXT_TASK';
   static const _GET_EASY_IMG_TASK   = 'GET_EASY_IMG_TASK';
+  static const _GET_EASY_MEDIA_TASK   = 'GET_EASY_MEDIA_TASK';
 
  static String translateLevelDifficult(String level_difficult){
     switch(level_difficult){
@@ -146,6 +147,27 @@ class Database {
     try{
       var map = Map<String,dynamic>();
       map['action'] = _GET_EASY_IMG_TASK;
+      map['level'] = level.toString();
+
+      final response = await http.post(ROOT, body: map);
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      List<Map<String, dynamic>> resultList = parsed.toList();
+
+      if (200 == response.statusCode) {
+        return resultList;
+      } else {
+        return [];
+      }
+    }catch(e){
+      print(e);
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getEasyMediaTasks(int level) async{
+    try{
+      var map = Map<String,dynamic>();
+      map['action'] = _GET_EASY_MEDIA_TASK;
       map['level'] = level.toString();
 
       final response = await http.post(ROOT, body: map);

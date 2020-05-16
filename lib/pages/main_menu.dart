@@ -77,9 +77,16 @@ class _MainMenuState extends State<MainMenu> with WidgetsBindingObserver {
               child: ListTile(
                 title: Text('Медиа',style: TextStyle(fontSize: 20,color: SpecialTextColor)),
                 leading: Icon(Icons.headset, color: UsualTextColor),
-                onTap: () {},
+                  onTap: () async{
+                  //await Navigator.pushNamed(context, '/mediaLevel');
+                    await Navigator.pushNamed(context, '/selectLevel',arguments: {
+                      'levelType' : 'media',
+                      'levelDifficult' :currentDifficult,
+                      'user_id' : id
+                    });
+                }
               ),
-            ),
+            )
           ],
         ),
       ),

@@ -76,6 +76,7 @@ class _SelectLevelState extends State<SelectLevel> {
         listOfTasks = await Database.getEasyImageTasks(index);
         break;
       case 'media':
+        listOfTasks = await Database.getEasyMediaTasks(index);
         break;
     }
   }

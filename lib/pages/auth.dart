@@ -38,7 +38,7 @@ class _AuthorizationState extends State<Authorization> {
 
   void vkLogin() async {
     await initVKSdk();
-    FlutterVKSdk.login(
+    await FlutterVKSdk.login(
       scope: '${VKScope.email}',
       onSuccess: (res) async {
         token = res.token;
