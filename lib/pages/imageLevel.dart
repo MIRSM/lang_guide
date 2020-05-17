@@ -184,6 +184,7 @@ class _imageLevelState extends State<imageLevel> {
                         'level_type' : Level_Type,
                         'level_number' : level_number});
                       Navigator.pop(context);
+                      return;
                     }
                     setState(() {
                       if(!isButtonPushed)  {

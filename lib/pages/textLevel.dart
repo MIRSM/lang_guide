@@ -75,26 +75,29 @@ class _textLevelState extends State<textLevel> {
         tempList=[];
         }
       tempList.add(
-        ButtonTheme(
-          minWidth: 10,
-          child: FlatButton(
-            onPressed: buttonPushed? (){} : (){
-              if(!listOfButtonsStates[i]){
-                setState(() {
-                  finalAnswer+=answers[i]+' ';
-                  listOfColors[i] = Colors.grey;
-                });
-              }else{
-                setState(() {
-                  finalAnswer = finalAnswer.replaceFirst(answers[i]+' ', '');
-                  listOfColors[i] = Colors.lightBlue;
-                });
-              }
-              listOfButtonsStates[i]=!listOfButtonsStates[i];
-            },
-            shape: StadiumBorder(),
-            color: listOfColors[i],//Colors.lightBlue,
-            child: Text(answers[i], style: TextStyle(color: Colors.white),),//listOfColors[i]),),
+        Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: ButtonTheme(
+            minWidth: 10,
+            child: FlatButton(
+              onPressed: buttonPushed? (){} : (){
+                if(!listOfButtonsStates[i]){
+                  setState(() {
+                    finalAnswer+=answers[i]+' ';
+                    listOfColors[i] = Colors.grey;
+                  });
+                }else{
+                  setState(() {
+                    finalAnswer = finalAnswer.replaceFirst(answers[i]+' ', '');
+                    listOfColors[i] = Colors.lightBlue;
+                  });
+                }
+                listOfButtonsStates[i]=!listOfButtonsStates[i];
+              },
+              shape: StadiumBorder(),
+              color: listOfColors[i],//Colors.lightBlue,
+              child: Text(answers[i], style: TextStyle(color: Colors.white),),//listOfColors[i]),),
+            ),
           ),
         ),
       );

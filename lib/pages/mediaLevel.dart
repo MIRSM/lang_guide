@@ -131,6 +131,7 @@ class _mediaLevelState extends State<mediaLevel> {
       answers.shuffle();
       finalAnswer = '';
       rightAnswer = '';
+      _speak();
       shouldRefreshData = false;
       for(int i=0;i<answers.length;i++){
         listOfButtonsStates.add(false);
@@ -153,26 +154,29 @@ class _mediaLevelState extends State<mediaLevel> {
         tempList=[];
       }
       tempList.add(
-        ButtonTheme(
-          minWidth: 10,
-          child: FlatButton(
-            onPressed: buttonPushed? (){} : (){
-              if(!listOfButtonsStates[i]){
-                setState(() {
-                  finalAnswer+=answers[i]+' ';
-                  listOfColors[i] = Colors.grey;
-                });
-              }else{
-                setState(() {
-                  finalAnswer = finalAnswer.replaceFirst(answers[i]+' ', '');
-                  listOfColors[i] = Colors.lightBlue;
-                });
-              }
-              listOfButtonsStates[i]=!listOfButtonsStates[i];
-            },
-            shape: StadiumBorder(),
-            color: listOfColors[i],//Colors.lightBlue,
-            child: Text(answers[i], style: TextStyle(color: Colors.white),),//listOfColors[i]),),
+        Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: ButtonTheme(
+            minWidth: 10,
+            child: FlatButton(
+              onPressed: buttonPushed? (){} : (){
+                if(!listOfButtonsStates[i]){
+                  setState(() {
+                    finalAnswer+=answers[i]+' ';
+                    listOfColors[i] = Colors.grey;
+                  });
+                }else{
+                  setState(() {
+                    finalAnswer = finalAnswer.replaceFirst(answers[i]+' ', '');
+                    listOfColors[i] = Colors.lightBlue;
+                  });
+                }
+                listOfButtonsStates[i]=!listOfButtonsStates[i];
+              },
+              shape: StadiumBorder(),
+              color: listOfColors[i],//Colors.lightBlue,
+              child: Text(answers[i], style: TextStyle(color: Colors.white),),//listOfColors[i]),),
+            ),
           ),
         ),
       );
@@ -279,7 +283,8 @@ class _mediaLevelState extends State<mediaLevel> {
                         return;
                       }else {
                         buttonPushed = false;
-                        shouldRefreshData = true;
+                        if(taskIndex!=3)
+                          shouldRefreshData = true;
                       }
                       if(taskIndex!=3)
                         taskIndex++;
