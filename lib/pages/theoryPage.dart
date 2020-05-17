@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class theoryPage extends StatefulWidget {
   @override
@@ -11,13 +12,14 @@ class _theoryPageState extends State<theoryPage> {
   List<TextSpan> changeToBold(String build,String eng,String rus, String description){
     List<TextSpan> resultList=[];
     TextStyle txtStyle = TextStyle(color: Colors.black,fontSize: 12);
+    TextStyle txtPr = TextStyle(color: Colors.lightBlue,fontSize: 12);
     TextStyle verbStyle = TextStyle(color: Colors.black, fontWeight: FontWeight.bold);
     var arr=build.split('`');
     for(int i=0;i<arr.length;i++){
       resultList.add(TextSpan(style: arr[i]=='V'?verbStyle:txtStyle, text: arr[i]));
     }
-    resultList.add(TextSpan(style: txtStyle,text: eng));
-    resultList.add(TextSpan(style: txtStyle,text: rus));
+    resultList.add(TextSpan(style: txtPr,text: eng));
+    resultList.add(TextSpan(style: txtPr,text: rus));
     resultList.add(TextSpan(style: txtStyle,text: description));
     return resultList;
   }
@@ -61,7 +63,7 @@ class _theoryPageState extends State<theoryPage> {
             },
             'future' : {
               'description' : 'Действие, которое обязательно произойдет в будущем',
-              'build' : 'will + `V',
+              'build' : 'will + `V`',
               'eng' : 'I will read.',
               'rus' : 'Я прочитаю. (завтра)',
             }
@@ -110,21 +112,27 @@ class _theoryPageState extends State<theoryPage> {
     };
 
     TextStyle txtStyle = TextStyle(color: Colors.black);
-    TextStyle verbStyle = TextStyle(color: Colors.black, fontWeight: FontWeight.bold);
+    TextStyle verbStyle = TextStyle(color: Colors.pink, fontSize: 13);
+    TextStyle rowNameStyle = TextStyle(color: Colors.pink, fontSize: 15);
     Table table=Table(
-      border: TableBorder.symmetric(inside: BorderSide(color: Colors.lightBlue,width: 1)),
+      border: TableBorder.symmetric(inside: BorderSide(color: Colors.black,width: 1)),
       children: <TableRow>[
         TableRow(
           children: <Widget>[
             Text(' '),
-            Text('Настоящее (Present)'),
-            Text('Прошедшее (Past)'),
-            Text('Будущее (Future)'),
+            Text('Настоящее (Present)',style: verbStyle,),
+            Text('Прошедшее (Past)',style: verbStyle),
+            Text('Будущее (Future)',style: verbStyle),
           ]
         ),
         TableRow(
             children: <Widget>[
-              Text('Simple'),
+              Column(children: <Widget>[
+                Text('Simple\n\n',style: rowNameStyle,),
+                Image.asset('assets/donut.png',width: 25,height: 25,),
+                Text('\n\n'),
+                Image.asset('assets/donut.png',width: 25,height: 25,)
+              ],),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
@@ -159,7 +167,12 @@ class _theoryPageState extends State<theoryPage> {
         ),
         TableRow(
             children: <Widget>[
-              Text('Continuous'),
+              Column(children: <Widget>[
+                Text('Continuous\n\n',style: rowNameStyle,),
+                Image.asset('assets/donut.png',width: 25,height: 25,),
+                Text('\n\n'),
+                Image.asset('assets/donut.png',width: 25,height: 25,)
+              ],),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
@@ -184,7 +197,7 @@ class _theoryPageState extends State<theoryPage> {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     style: txtStyle,
-                    children: changeToBold(mapOfTimes[state]['continuous']['future']['build']+'\n\n',
+                    children: changeToBold(mapOfTimes[state]['continuous']['future']['build']+'\n\n\n',
                         mapOfTimes[state]['continuous']['future']['eng']+'\n',
                         mapOfTimes[state]['continuous']['future']['rus']+'\n\n',
                         mapOfTimes[state]['continuous']['future']['description']+'\n')
@@ -194,7 +207,12 @@ class _theoryPageState extends State<theoryPage> {
         ),
         TableRow(
             children: <Widget>[
-              Text('Perfect'),
+              Column(children: <Widget>[
+                Text('Perfect\n\n',style: rowNameStyle,),
+                Image.asset('assets/donut.png',width: 25,height: 25,),
+                Text('\n\n\n'),
+                Image.asset('assets/donut.png',width: 25,height: 25,)
+              ],),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
@@ -229,7 +247,12 @@ class _theoryPageState extends State<theoryPage> {
         ),
         TableRow(
             children: <Widget>[
-              Text('Perfect Continuous'),
+              Column(children: <Widget>[
+                Text('Perfect Continuous\n\n',style: rowNameStyle,),
+                Image.asset('assets/donut.png',width: 25,height: 25,),
+                Text('\n\n'),
+                Image.asset('assets/donut.png',width: 25,height: 25,)
+              ],),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
