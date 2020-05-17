@@ -8,6 +8,7 @@ import 'package:lang_guide/pages/select_level.dart';
 import 'package:lang_guide/pages/textLevel.dart';
 import 'package:lang_guide/pages/resultLevel.dart';
 import 'package:lang_guide/pages/mediaLevel.dart';
+import 'package:lang_guide/pages/theoryPage.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -22,6 +23,7 @@ void main() {
       '/imageLevel'  : (context) => imageLevel(),
       '/resultLevel' : (context) => ResultLevel(),
       '/mediaLevel' : (context) => mediaLevel(),
+      '/theoryPage' :(context) => theoryPage(),
         //'/options': (context) => Options(),
         //'/TrainingType': (context) => TrainingType(),
         //'/TrainingLevel' : (context) => TrainingLevel(),

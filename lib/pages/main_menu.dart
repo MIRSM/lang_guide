@@ -78,7 +78,6 @@ class _MainMenuState extends State<MainMenu> with WidgetsBindingObserver {
                 title: Text('Медиа',style: TextStyle(fontSize: 20,color: SpecialTextColor)),
                 leading: Icon(Icons.headset, color: UsualTextColor),
                   onTap: () async{
-                  //await Navigator.pushNamed(context, '/mediaLevel');
                     await Navigator.pushNamed(context, '/selectLevel',arguments: {
                       'levelType' : 'media',
                       'levelDifficult' :currentDifficult,
@@ -91,7 +90,69 @@ class _MainMenuState extends State<MainMenu> with WidgetsBindingObserver {
         ),
       ),
     );
-
+    _widgets[1] = Center(
+      child: Card(
+        color: UsualTextColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+              color: Colors.white,
+              child: ListTile(
+                title: Text('Времена',style: TextStyle(fontSize: 20,color: SpecialTextColor)),
+                leading: Icon(Icons.access_time, color: UsualTextColor),
+                onTap: () async{
+                  await Navigator.pushNamed(context, '/theoryPage',arguments: {
+                    'pageType' : 'times'
+                  });
+                },
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 0,horizontal: 10),
+              color: Colors.white,
+              child: ListTile(
+                title: Text('Местоимения',style: TextStyle(fontSize: 20,color: SpecialTextColor)),
+                leading: Icon(MdiIcons.human, color: UsualTextColor),
+                onTap: () async{
+                  await Navigator.pushNamed(context, '/theoryPage',arguments: {
+                    'pageType' : 'pronouns'
+                  });
+                },
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+              color: Colors.white,
+              child: ListTile(
+                  title: Text('Предлоги',style: TextStyle(fontSize: 20,color: SpecialTextColor)),
+                  leading: Icon(Icons.arrow_upward, color: UsualTextColor),
+                  onTap: () async{
+                    await Navigator.pushNamed(context, '/theoryPage',arguments: {
+                      'pageType' : 'prepositions'
+                    });
+                  }
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.fromLTRB(10,0,10,15),
+              color: Colors.white,
+              child: ListTile(
+                  title: Text('Неправильные глаголы',style: TextStyle(fontSize: 20,color: SpecialTextColor)),
+                  leading: Icon(Icons.work, color: UsualTextColor),
+                  onTap: () async{
+                    await Navigator.pushNamed(context, '/theoryPage',arguments: {
+                      'pageType' : 'verbs'
+                    });
+                  }
+              ),
+            )
+          ],
+        ),
+      ),
+    );
     _widgets[2] =Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[

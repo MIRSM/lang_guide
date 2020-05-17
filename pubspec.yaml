@@ -24,7 +24,6 @@ dependencies:
   flutter_vk_sdk: ^0.1.0+3
   material_design_icons_flutter: ^4.0.5145
   transparent_image: ^1.0.0
-  just_audio: ^0.1.9
   flutter_tts: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
